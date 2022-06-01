@@ -12,9 +12,6 @@ $db_dir = __DIR__ . '/db';
 global $xur_db;
 $xur_db = new \SleekDB\Store( 'last_location', $db_dir );
 
-// How to Setup a Discord Webhook: https://support.discord.com/hc/en-us/articles/228383668-Intro-to-Webhooks
-$webhook = $_ENV['DISCORD_WEBHOOK'];
-
 if ( $xur_location = get_xur_location() ) {
 	
 	if ( has_xur_moved( $xur_location ) ) {
@@ -23,7 +20,7 @@ if ( $xur_location = get_xur_location() ) {
 			'content'    => $xur_location
 		);
 		
-		send_to_discord( $payload, $webhook );
+		send_to_discord( $payload );
 		
 	}
 
@@ -67,13 +64,14 @@ function has_xur_moved( $xur_location ) {
 	
 }
 
-function send_to_discord( $payload, $webhook ) {
+function send_to_discord( $payload ) {
 		
 	$curl = curl_init();
-	
+
+	// How to Setup a Discord Webhook: https://support.discord.com/hc/en-us/articles/228383668-Intro-to-Webhooks
 	curl_setopt_array( $curl, 
 		array(
-			CURLOPT_URL            => $webhook,
+			CURLOPT_URL            => $_ENV['DISCORD_WEBHOOK'],
 			CURLOPT_RETURNTRANSFER => true,
 			CURLOPT_ENCODING       => '',
 			CURLOPT_MAXREDIRS      => 10,
