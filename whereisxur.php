@@ -13,7 +13,7 @@ global $xur_db;
 $xur_db = new \SleekDB\Store( 'last_location', $db_dir );
 
 if ( $xur_location = get_xur_location() ) {
-	
+
 	if ( has_xur_moved( $xur_location ) ) {
 		
 		$payload = array(
@@ -32,10 +32,10 @@ function get_xur_location() {
 	$content = file_get_contents( $url );
 	
 	preg_match( '/\>(Xûr .*)/', $content, $match );
-	
+
 	if ( !empty( $match[1] ) ) {
-		
-		return strip_tags( $match[1] );
+
+		return htmlspecialchars_decode( strip_tags( $match[1] ) );
 		
 	}
 
@@ -47,7 +47,7 @@ function has_xur_moved( $xur_location ) {
 	global $xur_db;
 	
 	if ( $last_location = $xur_db->findOneBy( [ 'last_location', '=', $xur_location ] ) ) {
-		
+
 		return false;
 		
 	} else {
