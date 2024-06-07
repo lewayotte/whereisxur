@@ -35,7 +35,7 @@ function get_xur_location() {
 	$context  = stream_context_create($options);
 	$content = file_get_contents( $url, false, $context );
 	
-	preg_match( '/\>(Xûr .*)/', $content, $match );
+	preg_match( '/\>(Xûr .*\.)/', $content, $match );
 
 	if ( !empty( $match[1] ) ) {
 
@@ -52,13 +52,12 @@ function has_xur_moved( $xur_location ) {
 
 	$last_location = file_get_contents( $xur_db ); 
 
-        if ( $debug ) {
+	if ( $debug ) {
 
-	        print_r( $xur_location );
-	        print_r( $last_location );
+		print_r( $xur_location );
+		print_r( $last_location );
 
-        }
-
+	}
 	
 	if ( $last_location == $xur_location ) {
 
